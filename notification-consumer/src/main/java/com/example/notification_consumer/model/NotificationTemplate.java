@@ -28,7 +28,4 @@ public class NotificationTemplate extends BaseEntity{
     @ManyToOne
     @JoinColumn(name="channel_id", nullable=false)
     private NotificationChannel channel;
-
-    private String language;
-
 }

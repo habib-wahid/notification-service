@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,6 +27,6 @@ public class NotificationRetryLog extends BaseEntity {
 
     private Integer retryCount = 0;
     private Integer maxRetries = 3;
-    private Instant sentAt;
+    private LocalDateTime sentAt;
 }
 

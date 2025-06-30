@@ -20,6 +20,4 @@ public class UserDeviceToken extends BaseEntity{
     private String platform;
     private Boolean status;
     private Long appId;
-
-
 }
