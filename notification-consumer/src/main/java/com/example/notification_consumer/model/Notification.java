@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "ntotification")
+@Table(name = "notification")
 public class Notification extends BaseEntity{
 
     @Column(nullable=false)
