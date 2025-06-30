@@ -30,6 +30,4 @@ public class Notification extends BaseEntity{
     @OneToMany(mappedBy="notification", cascade=CascadeType.ALL)
     private List<UserNotification> userNotifications;
 
-    @OneToMany(mappedBy="notification", cascade=CascadeType.ALL)
-    private List<NotificationRetryLog> retryLogs;
 }
