@@ -1,4 +1,4 @@
-package com.example.notification_consumer;
+package com.example.notification_consumer.model;
 
 public class NotificationEvent {
     private Long userId;

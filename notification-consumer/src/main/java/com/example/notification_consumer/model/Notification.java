@@ -1,6 +1,6 @@
 package com.example.notification_consumer.model;
 
-import com.example.notification_consumer.enumTypes.NOTIFICATION_STATUS;
+import com.example.notification_consumer.enumTypes.NotificationStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class Notification extends BaseEntity{
     private LocalDateTime scheduledAt;
 
     @Enumerated(EnumType.STRING)
-    private NOTIFICATION_STATUS status;
+    private NotificationStatus status;
 
     private LocalDateTime sentAt;
 

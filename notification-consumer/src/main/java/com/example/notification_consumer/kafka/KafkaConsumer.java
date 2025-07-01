@@ -1,5 +1,6 @@
-package com.example.notification_consumer;
+package com.example.notification_consumer.kafka;
 
+import com.example.notification_consumer.model.NotificationEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
