@@ -1,5 +1,10 @@
 package com.example.notification_consumer.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserDeviceTokenDto extends BaseDto{
     private Long userId;
     private String token;
