@@ -40,7 +40,7 @@ public class EventProducer {
             EventDto eventDto = new EventDto(userIds.get(idIndex), notificationType.get(eventIndex));
             try{
                 String eventJson = objectMapper.writeValueAsString(eventDto);
-                kafkaTemplate.send(topic, eventJson);
+                kafkaTemplate.send(topic, notificationType.get(eventIndex), eventJson);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

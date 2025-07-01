@@ -23,6 +23,6 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/bulk-produce")
     public void bulkProduceEvent() {
-        eventProducer.bulkPublishEvent("bulk-user-notification");
+        eventProducer.bulkPublishEvent("notification-bulk-topic");
     }
 }
