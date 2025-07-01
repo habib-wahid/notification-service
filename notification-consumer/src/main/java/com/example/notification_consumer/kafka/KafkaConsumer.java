@@ -19,6 +19,7 @@ public class KafkaConsumer {
         System.out.println("Received event: " + event);
         try {
             NotificationEvent notificationEvent = objectMapper.readValue(event, NotificationEvent.class);
+           // NotificationProcess.proceses(notificationEvent)
             System.out.println(notificationEvent.getNotificationType());
         } catch (Exception e) {
             e.printStackTrace();

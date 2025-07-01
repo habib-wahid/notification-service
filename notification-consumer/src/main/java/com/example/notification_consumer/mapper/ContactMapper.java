@@ -1,4 +1,7 @@
 package com.example.notification_consumer.mapper;
 
-public class ContactMapper {
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface ContactMapper {
 }
