@@ -10,6 +10,6 @@ public class NotificationTemplateDto extends BaseDto{
     private String subject;
     private String content;
     private String css;
-    private Long typeId;
-    private Long channelId;
+    private Long notificationTypeId;
+    private Long notificationChannelId;
 }

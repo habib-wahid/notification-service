@@ -31,13 +31,12 @@ public class NotificationRetryLogController {
 
     @GetMapping
     public ResponseEntity<Page<NotificationRetryLogDto>> findAllNotificationRetryLog(
-            @RequestParam(name = "page_number", defaultValue = "0") int page,
-            @RequestParam(name = "page_size", defaultValue = "10") int size,
-            @RequestParam(name = "direction", defaultValue = "desc") Sort.Direction direction,
-            @RequestParam(name = "sort_by", defaultValue = "id") String sortBy
-    ) {
-        Page<NotificationRetryLogDto> reseponse = retryLogService.findAll(page, size, direction, sortBy);
-        return ResponseEntity.ok(reseponse);
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "desc") Sort.Direction direction,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        Page<NotificationRetryLogDto> response = retryLogService.findAll(page, size, direction, sortBy);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")

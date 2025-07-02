@@ -29,6 +29,7 @@ public class NotificationRetryLogServiceImpl implements NotificationRetryLogServ
 
         NotificationRetryLog newLog = mapper.toEntity(logDto);
         newLog.setUserNotification(userNotification);
+
         NotificationRetryLog savedLog = repository.save(newLog);
         return mapper.toDto(savedLog);
     }
@@ -43,8 +44,8 @@ public class NotificationRetryLogServiceImpl implements NotificationRetryLogServ
     @Override
     public Page<NotificationRetryLogDto> findAll(int page, int size, Sort.Direction direction, String sortBy) {
         Pageable pageable = PageRequest.of(page, size, direction, sortBy);
-        Page<NotificationRetryLog> retryLogs = repository.findAll(pageable);
-        return retryLogs.map(mapper::toDto);
+        Page<NotificationRetryLog> pageResult = repository.findAll(pageable);
+        return pageResult.map(mapper::toDto);
 
     }
 

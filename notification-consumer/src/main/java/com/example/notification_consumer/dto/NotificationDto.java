@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,6 +14,4 @@ public class NotificationDto extends BaseDto{
     private LocalDateTime scheduledAt;
     private String status;
     private LocalDateTime sentAt;
-    private List<Long> userNotificationIds;
-    private List<Long> retryLogIds;
 }

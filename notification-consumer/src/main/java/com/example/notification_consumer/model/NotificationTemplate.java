@@ -23,9 +23,9 @@ public class NotificationTemplate extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name="type_id", nullable=false)
-    private NotificationType type;
+    private NotificationType notificationType;
 
     @ManyToOne
     @JoinColumn(name="channel_id", nullable=false)
-    private NotificationChannel channel;
+    private NotificationChannel notificationChannel;
 }
