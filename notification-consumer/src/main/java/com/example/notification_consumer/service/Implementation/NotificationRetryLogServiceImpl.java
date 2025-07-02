@@ -51,12 +51,17 @@ public class NotificationRetryLogServiceImpl implements NotificationRetryLogServ
 
     @Override
     public NotificationRetryLogDto update(Long id, NotificationRetryLogDto logDto) {
-        if (!repository.existsById(id)) {
-            throw new NotFoundException("NotificationRetryLog not found with id: " + id);
+
+        NotificationRetryLog retryLog = findById(id);
+
+        retryLog = mapper.updateEntityFromDto(logDto, retryLog);
+
+        if (logDto.getUserNotificationId() != null){
+            UserNotification userNotification = userNotificationService.findById(logDto.getUserNotificationId());
+            retryLog.setUserNotification(userNotification);
         }
-        NotificationRetryLog entity = mapper.toEntity(logDto);
-        entity.setId(id);
-        NotificationRetryLog updated = repository.save(entity);
+
+        NotificationRetryLog updated = repository.save(retryLog);
         return mapper.toDto(updated);
     }
 
@@ -72,5 +77,10 @@ public class NotificationRetryLogServiceImpl implements NotificationRetryLogServ
         dto.setMessage("NotificationRetryLog with id: " + id + "was deleted successfully");
 
         return dto;
+    }
+
+
+    private NotificationRetryLog findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("NotificationRetryLog not found with id: " + id));
     }
 }
