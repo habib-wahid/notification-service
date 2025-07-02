@@ -42,6 +42,12 @@ public class NotificationTypeServiceImpl implements NotificationTypeService {
     }
 
     @Override
+    public NotificationType findByName(String notificationType) {
+        return repository.findByName(notificationType)
+                .orElseThrow(() -> new NotFoundException("NotificationType not found with name: " + notificationType));
+    }
+
+    @Override
     public NotificationTypeDto update(Long id, NotificationTypeDto dto) {
         NotificationType notificationType = findById(id);
         mapper.updateEntityFromDto(dto, notificationType);

@@ -2,6 +2,7 @@ package com.example.notification_consumer.service;
 
 import com.example.notification_consumer.dto.DeleteResponseDto;
 import com.example.notification_consumer.dto.NotificationTemplateDto;
+import com.example.notification_consumer.model.NotificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -16,4 +17,5 @@ public interface NotificationTemplateService {
 
     DeleteResponseDto delete(Long id);
 
+    NotificationTemplate findByChannelIdAndTypeId(Long channelId, Long typeId);
 }

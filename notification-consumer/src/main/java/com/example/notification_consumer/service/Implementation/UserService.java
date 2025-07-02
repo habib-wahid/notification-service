@@ -34,7 +34,6 @@ public class UserService {
 
     public UserDto saveUser(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
-
         List<Email> emails = new ArrayList<>();
         if (userDto.getEmailList() != null) {
             emails = userDto.getEmailList().stream()
@@ -48,6 +47,7 @@ public class UserService {
         }
         user.setEmails(emails);
 
+
         List<Contact> contacts = new ArrayList<>();
         if (userDto.getContactList() != null) {
             contacts = userDto.getContactList().stream()
@@ -60,7 +60,7 @@ public class UserService {
                     .collect(Collectors.toList());
         }
         user.setContacts(contacts);
-
+        userRepository.save(user);
         return userMapper.toDto(user);
     }
 

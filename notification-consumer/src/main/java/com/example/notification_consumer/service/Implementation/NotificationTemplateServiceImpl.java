@@ -92,6 +92,12 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
        return dto;
     }
 
+    @Override
+    public NotificationTemplate findByChannelIdAndTypeId(Long channelId, Long typeId) {
+        return repository.findByNotificationChannelIdAndNotificationTypeId(channelId, typeId)
+                .orElseThrow(() -> new NotFoundException("NotificationTemplate not found with channelId: " + channelId + " and typeId: " + typeId));
+    }
+
     public NotificationTemplate findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("NotificationTemplate not found with id: " + id));

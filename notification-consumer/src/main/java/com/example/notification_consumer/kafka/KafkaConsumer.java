@@ -1,10 +1,11 @@
 package com.example.notification_consumer.kafka;
 
+import com.example.notification_consumer.model.NotificationEvent;
+import com.example.notification_consumer.service.Implementation.NotificationProcessService;
 import com.example.notification_consumer.service.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.example.notification_consumer.model.NotificationEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -13,23 +14,20 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 @Component
+@RequiredArgsConstructor
 public class KafkaConsumer {
 
     private final ObjectMapper objectMapper;
     private final ExecutorService executorService;
-    private final NotificationService notificationService;
+    private final NotificationProcessService notificationProcessService;
 
-    public KafkaConsumer(ObjectMapper objectMapper, ExecutorService executorService, NotificationService notificationService) {
-        this.objectMapper = objectMapper;
-        this.executorService = executorService;
-        this.notificationService = notificationService;
-    }
 
     @KafkaListener(topics = "general-user-notification", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(String event) {
         System.out.println("Received event: " + event);
         try {
             NotificationEvent notificationEvent = objectMapper.readValue(event, NotificationEvent.class);
+            notificationProcessService.processNotification(notificationEvent);
             System.out.println(notificationEvent.getNotificationType());
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +52,7 @@ public class KafkaConsumer {
 
         for (ConsumerRecord<String, String> record : records) {
             NotificationEvent notificationEvent = objectMapper.readValue(record.value(), NotificationEvent.class);
-            //executorService.submit(() -> notificationService.sendNotification(notificationEvent));
+            executorService.submit(() -> notificationProcessService.processNotification(notificationEvent));
         }
     }
 }

@@ -18,4 +18,6 @@ public interface NotificationTypeService {
     DeleteResponseDto delete(Long id);
 
     Page<NotificationTypeDto> findAll(int page, int size, Sort.Direction direction, String sortBy);
+
+    NotificationType findByName(String notificationType);
 }
