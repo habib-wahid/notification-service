@@ -9,6 +9,7 @@ import com.example.notification_consumer.model.NotificationChannel;
 import com.example.notification_consumer.model.User;
 import com.example.notification_consumer.model.UserNotification;
 import com.example.notification_consumer.repository.UserNotificationRepository;
+import com.example.notification_consumer.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
