@@ -1,8 +1,11 @@
 package com.example.notification_consumer.controller;
 
+import com.example.notification_consumer.dto.DeleteResponseDto;
+import com.example.notification_consumer.dto.NotificationRetryLogDto;
 import com.example.notification_consumer.dto.UserDeviceTokenDto;
 import com.example.notification_consumer.service.Implementation.UserDeviceTokenService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +33,7 @@ public class UserDeviceTokenController {
     }
 
     @DeleteMapping("/{tokenId}")
-    public ResponseEntity<UserDeviceTokenDto> delete(@PathVariable Long tokenId) {
+    public ResponseEntity<DeleteResponseDto> delete(@PathVariable Long tokenId) {
         return ResponseEntity.ok(userDeviceTokenService.delete(tokenId));
     }
 
@@ -44,5 +47,15 @@ public class UserDeviceTokenController {
         return ResponseEntity.ok(userDeviceTokenService.find(tokenId));
     }
 
+    @GetMapping
+    public ResponseEntity<Page<UserDeviceTokenDto>> findAll(
+            @RequestParam(name = "page_number", defaultValue = "0") int page,
+            @RequestParam(name = "page_size", defaultValue = "10") int size,
+            @RequestParam(name = "direction", defaultValue = "desc") Sort.Direction direction,
+            @RequestParam(name = "sort_by", defaultValue = "id") String sortBy
+    ) {
+
+        return ResponseEntity.ok(userDeviceTokenService.findAll(page, size, direction, sortBy));
+    }
 
 }

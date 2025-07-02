@@ -28,7 +28,7 @@ public class NotificationRetryLogServiceImpl implements NotificationRetryLogServ
         UserNotification userNotification = userNotificationService.findById(logDto.getId());
 
         NotificationRetryLog newLog = mapper.toEntity(logDto);
-
+        newLog.setUserNotification(userNotification);
         NotificationRetryLog savedLog = repository.save(newLog);
         return mapper.toDto(savedLog);
     }

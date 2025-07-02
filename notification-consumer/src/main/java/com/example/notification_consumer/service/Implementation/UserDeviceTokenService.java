@@ -1,5 +1,6 @@
 package com.example.notification_consumer.service.Implementation;
 
+import com.example.notification_consumer.dto.DeleteResponseDto;
 import com.example.notification_consumer.dto.UserDeviceTokenDto;
 import com.example.notification_consumer.exception.NotFoundException;
 import com.example.notification_consumer.mapper.UserDeviceTokenMapper;
@@ -7,6 +8,9 @@ import com.example.notification_consumer.model.User;
 import com.example.notification_consumer.model.UserDeviceToken;
 import com.example.notification_consumer.repository.UserDeviceTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +24,7 @@ public class UserDeviceTokenService {
     private final UserDeviceTokenMapper userDeviceTokenMapper;
 
     public UserDeviceTokenDto registerToken(UserDeviceTokenDto userDeviceTokenDto) {
-        User user = userService.findUserById(userDeviceTokenDto.getUserId());
+        User user = userService.findById(userDeviceTokenDto.getUserId());
         UserDeviceToken userDeviceToken = userDeviceTokenMapper.toEntity(userDeviceTokenDto);
         userDeviceToken.setUser(user);
         userDeviceToken.setStatus(true);
@@ -49,11 +53,17 @@ public class UserDeviceTokenService {
                 .map(userDeviceTokenMapper::toDto).toList();
     }
 
-    public UserDeviceTokenDto delete(Long tokenId) {
+    public DeleteResponseDto delete(Long tokenId) {
         UserDeviceToken token = userDeviceTokenRepository.findById(tokenId)
                 .orElseThrow(() -> new NotFoundException("Token not found"));
         userDeviceTokenRepository.delete(token);
-        return userDeviceTokenMapper.toDto(token);
+        return new DeleteResponseDto(tokenId,"Token deleted successfully");
     }
 
+    public Page<UserDeviceTokenDto> findAll(int page, int size, Sort.Direction direction, String sortBy) {
+        Page<UserDeviceToken> tokens = userDeviceTokenRepository.findAll(
+                PageRequest.of(page, size, Sort.by(direction, sortBy))
+        );
+        return tokens.map(userDeviceTokenMapper::toDto);
+    }
 }

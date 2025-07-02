@@ -18,13 +18,13 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public UserDto findById(Long userId) {
+    public UserDto find(Long userId) {
         return userRepository.findById(userId)
                 .map(userMapper::toDto)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
     }
 
-    public User findUserById(Long userId) {
+    public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
     }
