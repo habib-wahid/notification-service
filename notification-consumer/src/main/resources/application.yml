@@ -20,5 +20,18 @@ spring:
     listener:
       missing-topics-fatal: false
 
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: f879e546a79d80
+    password: 97b60a852fafba
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+
 server:
   port: 8081
