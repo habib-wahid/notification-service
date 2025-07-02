@@ -2,12 +2,16 @@ package com.example.notification_consumer.model;
 
 import com.example.notification_consumer.enumTypes.NotificationStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "notification")
+@Getter
+@Setter
 public class Notification extends BaseEntity{
 
     @Column(nullable=false)

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 public interface NotificationService {
 
     NotificationDto create(NotificationDto notificationDto);
+    NotificationDto update(NotificationDto notificationDto);
     NotificationDto find(Long id);
     Notification findById(Long id);
     DeleteResponseDto delete(Long id);
