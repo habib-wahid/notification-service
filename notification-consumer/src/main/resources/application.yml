@@ -17,8 +17,13 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+      max-poll-records: 50
+      fetch-min-size: 1024
+      fetch-max-wait: 500
     listener:
-      missing-topics-fatal: false
+      ack-mode: batch
+      concurrency: 3
 
   mail:
     host: sandbox.smtp.mailtrap.io

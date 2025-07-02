@@ -7,6 +7,7 @@ public class NotificationEvent {
     public NotificationEvent() {
 
     }
+
     public NotificationEvent(Long userId, String notificationType) {
         this.userId = userId;
         this.notificationType = notificationType;
@@ -26,5 +27,10 @@ public class NotificationEvent {
 
     public void setNotificationType(String notificationType) {
         this.notificationType = notificationType;
+    }
+
+    @Override
+    public String toString() {
+        return "[userId = " + this.userId + ", notificationType = " + this.notificationType + "]";
     }
 }
