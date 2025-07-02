@@ -36,8 +36,8 @@ public class UserService {
         User user = userMapper.toEntity(userDto);
 
         List<Email> emails = new ArrayList<>();
-        if (userDto.getEmails() != null) {
-            emails = userDto.getEmails().stream()
+        if (userDto.getEmailList() != null) {
+            emails = userDto.getEmailList().stream()
                     .map(emailAddress -> {
                         Email email = new Email();
                         email.setEmailAddress(emailAddress);
@@ -49,8 +49,8 @@ public class UserService {
         user.setEmails(emails);
 
         List<Contact> contacts = new ArrayList<>();
-        if (userDto.getContacts() != null) {
-            contacts = userDto.getContacts().stream()
+        if (userDto.getContactList() != null) {
+            contacts = userDto.getContactList().stream()
                     .map(phoneNumber -> {
                         Contact contact = new Contact();
                         contact.setPhoneNumber(phoneNumber);

@@ -16,7 +16,7 @@ public class UserDto extends BaseDto {
     private String firstName;
     private String lastName;
     private String gender;
-    private List<String> emails;
-    private List<String> contacts;
+    private List<String> emailList;
+    private List<String> contactList;
 
 }

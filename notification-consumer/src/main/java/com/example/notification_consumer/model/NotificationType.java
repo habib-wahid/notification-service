@@ -20,7 +20,7 @@ public class NotificationType extends BaseEntity{
     @OneToMany(mappedBy="type", cascade= CascadeType.ALL)
     private List<Notification> notifications;
 
-    @OneToMany(mappedBy="type", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="notificationType", cascade=CascadeType.ALL)
     private List<NotificationTemplate> templates;
 
 }

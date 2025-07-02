@@ -23,13 +23,12 @@ public class ContactServiceImplementation implements ContactService {
     public final ContactMapper mapper;
     public final ContactRepository repository;
     private final UserService userService;
-    private final ContactService contactService;
 
     @Override
     public ContactDto create(ContactDto contactDto) {
         Contact newContact = mapper.toEntity(contactDto);
 
-        User user = userService.findUserById(contactDto.getUserId());
+        User user = userService.findById(contactDto.getUserId());
         newContact.setUser(user);
 
         Contact savedContact = repository.save(newContact);

@@ -2,10 +2,7 @@ package com.example.notification_consumer.mapper;
 
 import com.example.notification_consumer.dto.NotificationTemplateDto;
 import com.example.notification_consumer.model.NotificationTemplate;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface NotificationTemplateMapper {
@@ -17,5 +14,5 @@ public interface NotificationTemplateMapper {
     NotificationTemplate toEntity(NotificationTemplateDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    NotificationTemplate updateEntityFromDto(NotificationTemplateDto dto, NotificationTemplate entity);
+    NotificationTemplate updateEntityFromDto(NotificationTemplateDto dto, @MappingTarget NotificationTemplate entity);
 }

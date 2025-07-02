@@ -8,6 +8,7 @@ import com.example.notification_consumer.model.Notification;
 import com.example.notification_consumer.model.NotificationType;
 import com.example.notification_consumer.repository.NotificationRepository;
 import com.example.notification_consumer.service.NotificationService;
+import com.example.notification_consumer.service.NotificationTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
