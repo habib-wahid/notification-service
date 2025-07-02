@@ -9,12 +9,13 @@ import lombok.Setter;
 @Table(name = "email")
 @Getter
 @Setter
-public class Email extends BaseEntity{
+public class Email extends BaseEntity {
 
-    @Column(nullable=false, unique=true)
-    private String email;
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 }
