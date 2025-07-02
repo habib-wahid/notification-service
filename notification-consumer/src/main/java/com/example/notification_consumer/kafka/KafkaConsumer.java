@@ -5,6 +5,7 @@ import com.example.notification_consumer.service.Implementation.NotificationProc
 import com.example.notification_consumer.service.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -52,7 +53,13 @@ public class KafkaConsumer {
 
         for (ConsumerRecord<String, String> record : records) {
             NotificationEvent notificationEvent = objectMapper.readValue(record.value(), NotificationEvent.class);
-            executorService.submit(() -> notificationProcessService.processNotification(notificationEvent));
+            executorService.submit(() -> {
+                try {
+                    notificationProcessService.processNotification(notificationEvent);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 }

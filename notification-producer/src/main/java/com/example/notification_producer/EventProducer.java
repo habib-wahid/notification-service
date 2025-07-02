@@ -33,9 +33,9 @@ public class EventProducer {
     }
 
     public void bulkPublishEvent(String topic) {
-        for (int i = 0; i < 100; i++) {
-            Integer idIndex = new Random().nextInt(20);
-            int eventIndex = new Random().nextInt(6);
+        for (int i = 0; i < 1; i++) {
+            Integer idIndex = 4;
+            int eventIndex = 2;
 
             EventDto eventDto = new EventDto(userIds.get(idIndex), notificationType.get(eventIndex));
             try{
