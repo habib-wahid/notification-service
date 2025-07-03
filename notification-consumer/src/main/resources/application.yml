@@ -26,17 +26,17 @@ spring:
       concurrency: 3
 
   mail:
-    host: sandbox.smtp.mailtrap.io
-    port: 2525
-    username: f879e546a79d80
-    password: 97b60a852fafba
+    host: smtp.gmail.com
+    port: 587
+    username: team.rentalservice@gmail.com
+    password: lpvi jmdd oevr uyhz
     properties:
       mail:
+        debug: true
         smtp:
           auth: true
           starttls:
             enable: true
-    default-encoding: UTF-8
 
 server:
   port: 8081

@@ -21,7 +21,6 @@ import java.util.Map;
 @Slf4j
 public class NotificationProcessService {
 
-    private final NotificationService notificationService;
     private final UserService userService;
     private final NotificationTemplateService notificationTemplateService;
     private final UserPreferenceService userPreferenceService;
@@ -36,6 +35,7 @@ public class NotificationProcessService {
         List<UserPreference> userPreference = userPreferenceService.getUserPreference(event.getUserId());
         NotificationType type = notificationTypeService.findByName(event.getNotificationType());
         if (!userPreference.isEmpty()) {
+            log.info("User preferences found for user: {}, type: {}", user.getId(), type.getName());
             List<NotificationChannel> notificationChannels = userPreference.stream()
                     .map(UserPreference::getChannel)
                     .toList();
@@ -48,20 +48,14 @@ public class NotificationProcessService {
             }
             log.info("Processing notification for user: {}, type: {}, channels: {}", user.getId(), type.getName(), notificationChannels);
 
-            Map<String, Object> templateParams = buildTemplateParams(2L, event.getNotificationType());
+            Map<String, Object> templateParams = buildTemplateParams(user, type);
 
             String htmlContent = buildTemplate(emailTemplate, templateParams);
             emailService.sendEmail(htmlContent);
         }
-    }
-
-    private Map<String, Object> buildTemplateParams(Long userId, String notificationType) {
-        Map<String, Object> templateParams = new HashMap<>();
-
-        templateParams.put("userName", userId);
-        templateParams.put("eventType", notificationType);
-
-        return templateParams;
+        else {
+            log.warn("No user preferences found for user: {}", user.getId());
+        }
     }
 
 

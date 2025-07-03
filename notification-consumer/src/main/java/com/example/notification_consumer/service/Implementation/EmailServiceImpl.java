@@ -38,15 +38,21 @@ public class EmailServiceImpl implements EmailService {
 
     public void sendEmail(String htmlContent) throws MessagingException {
         log.info("Sending email...");
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        helper.setFrom("backendDev@crm.com");
-        helper.setTo("tawsifcse113@gmail.com");
-        helper.setSubject("Testing email");
-        helper.setText(htmlContent, true);
 
-        mailSender.send(mimeMessage);
+        try {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,true);
+        helper.setTo("tanvirnis10@gmail.com");
+        helper.setSubject("User Credentials");
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+
+       // mailSender.send(mimeMessage);
         log.info("Email sent successfully");
+        } catch (MessagingException e) {
+            log.error("Error sending email: {}", e.getMessage());
+            throw new MessagingException("Failed to send email", e);
+        }
     }
 
 }
