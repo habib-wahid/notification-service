@@ -6,6 +6,6 @@ import jakarta.mail.MessagingException;
 import java.util.List;
 
 public interface EmailService {
-    void sendEmail(String htmlContent,String emailAddress) throws MessagingException;
+    void sendEmail(String htmlContent,String emailAddress, String Subject) throws MessagingException;
     List<Email> findAllByUserId(Long userId);
 }

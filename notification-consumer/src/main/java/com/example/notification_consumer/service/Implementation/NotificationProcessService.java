@@ -2,7 +2,6 @@ package com.example.notification_consumer.service.Implementation;
 
 import com.example.notification_consumer.model.*;
 import com.example.notification_consumer.service.EmailService;
-import com.example.notification_consumer.service.NotificationService;
 import com.example.notification_consumer.service.NotificationTemplateService;
 import com.example.notification_consumer.service.NotificationTypeService;
 import jakarta.mail.MessagingException;
@@ -27,45 +26,39 @@ public class NotificationProcessService {
     private final NotificationTypeService notificationTypeService;
     private final SpringTemplateEngine templateEngine;
     private final EmailService emailService;
+    private final ChannelDispatchService channelDispatchService;
 
 
-    public void processNotification(NotificationEvent event) throws MessagingException {
+    public void processNotification(NotificationEvent event) throws Exception {
         log.info("Processing notification for event: {}", event);
         User user = userService.findById(event.getUserId());
         List<UserPreference> userPreference = userPreferenceService.getUserPreference(event.getUserId());
         NotificationType type = notificationTypeService.findByName(event.getNotificationType());
-        if (!userPreference.isEmpty()) {
-            log.info("User preferences found for user: {}, type: {}", user.getId(), type.getName());
-            List<NotificationChannel> notificationChannels = userPreference.stream()
-                    .map(UserPreference::getChannel)
-                    .toList();
 
-            NotificationTemplate emailTemplate = null;
-            List<Email> emails = null;
-            for (NotificationChannel channel : notificationChannels) {
-                if (channel.getName().equalsIgnoreCase("EMAIL")) {
-                    emails = emailService.findAllByUserId(user.getId());
-                    emailTemplate = notificationTemplateService.findByChannelIdAndTypeId(channel.getId(), type.getId());
-                    if (emails.isEmpty()) {
-                        log.warn("No email found for user: {}", user.getId());
-                        return;
-                    }
-                }
-            }
-            log.info("Processing notification for user: {}, type: {}, channels: {}", user.getId(), type.getName(), notificationChannels);
-
-            if(!emails.isEmpty()){
-                for(Email email : emails) {
-                    Map<String, Object> templateParams = buildTemplateParams(user, type);
-                    String htmlContent = buildTemplate(emailTemplate, templateParams);
-                    log.info("Sending email to: {}", email.getEmailAddress());
-                    emailService.sendEmail(htmlContent, email.getEmailAddress());
-                }
-            }
-        }
-        else {
+        if (userPreference.isEmpty()) {
             log.warn("No user preferences found for user: {}", user.getId());
+            return;
         }
+
+        log.info("User preferences found for user: {}, type: {}", user.getId(), type.getName());
+        List<NotificationChannel> notificationChannels = userPreference.stream()
+                .map(UserPreference::getChannel)
+                .toList();
+
+        for (NotificationChannel channel : notificationChannels) {
+            NotificationTemplate template = notificationTemplateService.findByChannelIdAndTypeId(channel.getId(), type.getId());
+            if (template == null) {
+                log.warn("No template found for channel: {}, type: {}", channel.getName(), type.getName());
+                continue;
+            }
+            Map<String, Object> templateParams = buildTemplateParams(user, type);
+            String content = buildTemplate(template, templateParams);
+            log.info("Dispatching notification for user: {}, type: {}, channel: {}", user.getId(), type.getName(), channel.getName());
+            channelDispatchService.dispatch(new ChannelHandlerContext(user, type, channel, template, content));
+
+        }
+        log.info("Processing notification for user: {}, type: {}, channels: {}", user.getId(), type.getName(), notificationChannels);
+
     }
 
 
@@ -78,11 +71,11 @@ public class NotificationProcessService {
         return templateParams;
     }
 
-    private String buildTemplate(NotificationTemplate emailTemplate, Map<String, Object> templateParams) {
-        log.info("Building email template: {}", emailTemplate);
+    private String buildTemplate(NotificationTemplate template, Map<String, Object> templateParams) {
+        log.info("Building email template: {}", template.getName());
         Context context = new Context();
         context.setVariables(templateParams);
-        return templateEngine.process(emailTemplate.getContent(), context);
+        return templateEngine.process(template.getContent(), context);
     }
 
 }
