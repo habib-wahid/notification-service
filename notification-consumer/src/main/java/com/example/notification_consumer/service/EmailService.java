@@ -1,8 +1,11 @@
 package com.example.notification_consumer.service;
 
-import com.example.notification_consumer.dto.EmailDto;
+import com.example.notification_consumer.model.Email;
 import jakarta.mail.MessagingException;
 
+import java.util.List;
+
 public interface EmailService {
-    void sendEmail(String htmlContent) throws MessagingException;
+    void sendEmail(String htmlContent,String emailAddress) throws MessagingException;
+    List<Email> findAllByUserId(Long userId);
 }

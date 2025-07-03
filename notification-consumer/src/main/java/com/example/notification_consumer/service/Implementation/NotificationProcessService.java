@@ -41,17 +41,27 @@ public class NotificationProcessService {
                     .toList();
 
             NotificationTemplate emailTemplate = null;
+            List<Email> emails = null;
             for (NotificationChannel channel : notificationChannels) {
                 if (channel.getName().equalsIgnoreCase("EMAIL")) {
+                    emails = emailService.findAllByUserId(user.getId());
                     emailTemplate = notificationTemplateService.findByChannelIdAndTypeId(channel.getId(), type.getId());
+                    if (emails.isEmpty()) {
+                        log.warn("No email found for user: {}", user.getId());
+                        return;
+                    }
                 }
             }
             log.info("Processing notification for user: {}, type: {}, channels: {}", user.getId(), type.getName(), notificationChannels);
 
-            Map<String, Object> templateParams = buildTemplateParams(user, type);
-
-            String htmlContent = buildTemplate(emailTemplate, templateParams);
-            emailService.sendEmail(htmlContent);
+            if(!emails.isEmpty()){
+                for(Email email : emails) {
+                    Map<String, Object> templateParams = buildTemplateParams(user, type);
+                    String htmlContent = buildTemplate(emailTemplate, templateParams);
+                    log.info("Sending email to: {}", email.getEmailAddress());
+                    emailService.sendEmail(htmlContent, email.getEmailAddress());
+                }
+            }
         }
         else {
             log.warn("No user preferences found for user: {}", user.getId());

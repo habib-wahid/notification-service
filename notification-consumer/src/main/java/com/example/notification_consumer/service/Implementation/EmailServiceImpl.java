@@ -22,8 +22,6 @@ import java.util.List;
 public class EmailServiceImpl implements EmailService {
 
     private final EmailRepository emailRepository;
-    private final NotificationTemplateService notificationTemplateService;
-    private final SpringTemplateEngine templateEngine;
     private final JavaMailSender mailSender;
 
     public Email findById(Long id) {
@@ -36,13 +34,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-    public void sendEmail(String htmlContent) throws MessagingException {
+    public void sendEmail(String htmlContent, String emailAddress) throws MessagingException {
         log.info("Sending email...");
 
         try {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true);
-        helper.setTo("tanvirnis10@gmail.com");
+        helper.setTo(emailAddress);
         helper.setSubject("User Credentials");
         helper.setText(htmlContent, true);
         mailSender.send(message);
