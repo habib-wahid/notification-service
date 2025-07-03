@@ -1,5 +1,6 @@
 package com.example.notification_consumer.service.Implementation;
 
+import com.example.notification_consumer.exception.NotFoundException;
 import com.example.notification_consumer.model.ChannelHandlerContext;
 import com.example.notification_consumer.service.ChannelHandler;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class ChannelDispatchService {
     }
 
     public void dispatch(ChannelHandlerContext ctx) throws Exception {
-        String name = ctx.getChannel().getName();
+        String name = ctx.getChannel().getName().toUpperCase();
         ChannelHandler h = handlers.get(name);
-        if (h == null) throw new IllegalArgumentException("No handler for " + name);
+        if (h == null) throw new NotFoundException("No handler for " + name);
         h.handle(ctx.getUser(), ctx.getType(), ctx.getTemplate(), ctx.getContent());
     }
 }
