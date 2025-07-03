@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Component
+@Component("EMAIL")
 public class EmailHandler implements ChannelHandler {
 
     private final EmailService emailService;

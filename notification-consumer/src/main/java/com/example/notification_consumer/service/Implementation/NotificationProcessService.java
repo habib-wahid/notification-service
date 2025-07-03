@@ -1,10 +1,8 @@
 package com.example.notification_consumer.service.Implementation;
 
 import com.example.notification_consumer.model.*;
-import com.example.notification_consumer.service.EmailService;
 import com.example.notification_consumer.service.NotificationTemplateService;
 import com.example.notification_consumer.service.NotificationTypeService;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ public class NotificationProcessService {
     private final UserPreferenceService userPreferenceService;
     private final NotificationTypeService notificationTypeService;
     private final SpringTemplateEngine templateEngine;
-    private final EmailService emailService;
     private final ChannelDispatchService channelDispatchService;
 
 
@@ -55,9 +52,7 @@ public class NotificationProcessService {
             String content = buildTemplate(template, templateParams);
             log.info("Dispatching notification for user: {}, type: {}, channel: {}", user.getId(), type.getName(), channel.getName());
             channelDispatchService.dispatch(new ChannelHandlerContext(user, type, channel, template, content));
-
         }
-        log.info("Processing notification for user: {}, type: {}, channels: {}", user.getId(), type.getName(), notificationChannels);
 
     }
 
@@ -72,7 +67,7 @@ public class NotificationProcessService {
     }
 
     private String buildTemplate(NotificationTemplate template, Map<String, Object> templateParams) {
-        log.info("Building email template: {}", template.getName());
+        log.info("Building template: {}", template.getName());
         Context context = new Context();
         context.setVariables(templateParams);
         return templateEngine.process(template.getContent(), context);
